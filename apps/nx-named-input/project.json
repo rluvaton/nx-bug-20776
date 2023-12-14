@@ -1,0 +1,67 @@
+{
+  "name": "nx-named-input",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/nx-named-input/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/nx-named-input",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/nx-named-input/src/main.ts",
+        "tsConfig": "apps/nx-named-input/tsconfig.app.json",
+        "assets": ["apps/nx-named-input/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "nx-named-input:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "nx-named-input:build:development"
+        },
+        "production": {
+          "buildTarget": "nx-named-input:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/nx-named-input/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
